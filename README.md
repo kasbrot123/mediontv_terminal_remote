@@ -61,3 +61,9 @@ mute
 - `<NO FLAG>` (interactive mode)
 
 
+## Interactive Mode Commands
+
+*See script for detailed information..*
+
+
+
