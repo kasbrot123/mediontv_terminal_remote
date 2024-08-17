@@ -63,7 +63,7 @@ mute
 
 ## Interactive Mode Commands
 
-*See script for detailed information..*
+*See script for detailed information.*
 
 
 
