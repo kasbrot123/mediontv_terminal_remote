@@ -63,6 +63,7 @@ case $1 in
         ;;
 
     "")
+        # interactive mode
         while true
         do
             read -r -sn1 t
@@ -73,8 +74,8 @@ case $1 in
                 B) $0 down && echo -ne "\r\033[Karrow down" ;;
                 C) $0 right && echo -ne "\r\033[Karrow right" ;;
                 D) $0 left && echo -ne "\r\033[Karrow left" ;;
-                'o') $0 up && echo -ne "\r\033[Kpage up" ;;
-                'l') $0 down && echo -ne "\r\033[Kpage down" ;;
+                'o') $0 pup && echo -ne "\r\033[Kpage up" ;;
+                'l') $0 pdown && echo -ne "\r\033[Kpage down" ;;
                 '0') $0 0 && echo -ne "\r\033[Kzero" ;;
                 '1') $0 1 && echo -ne "\r\033[Kone" ;;
                 '2') $0 2 && echo -ne "\r\033[Ktwo" ;;
