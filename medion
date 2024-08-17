@@ -1,0 +1,113 @@
+#!/bin/bash
+
+IP="192.168.0.14"
+
+
+case $1 in
+    '0') echo "1000\n" | nc -w0 $IP 4660 ;;
+    '1') echo "1001\n" | nc -w0 $IP 4660 ;;
+    '2') echo "1002\n" | nc -w0 $IP 4660 ;;
+    '3') echo "1003\n" | nc -w0 $IP 4660 ;;
+    '4') echo "1004\n" | nc -w0 $IP 4660 ;;
+    '5') echo "1005\n" | nc -w0 $IP 4660 ;;
+    '6') echo "1006\n" | nc -w0 $IP 4660 ;;
+    '7') echo "1007\n" | nc -w0 $IP 4660 ;;
+    '8') echo "1008\n" | nc -w0 $IP 4660 ;;
+    '9') echo "1009\n" | nc -w0 $IP 4660 ;;
+    'menue') echo "1048\n" | nc -w0 $IP 4660 ;;
+    'mute') echo "1013\n" | nc -w0 $IP 4660 ;;
+    'up') echo "1020\n" | nc -w0 $IP 4660 ;;
+    'left') echo "1021\n" | nc -w0 $IP 4660 ;;
+    'ok') echo "1053\n" | nc -w0 $IP 4660 ;;
+    'right') echo "1022\n" | nc -w0 $IP 4660 ;;
+    'down') echo "1019\n" | nc -w0 $IP 4660 ;;
+    'volup') echo "1016\n" | nc -w0 $IP 4660 ;;
+    'voldown') echo "1017\n" | nc -w0 $IP 4660 ;;
+    'power') echo "1012\n" | nc -w0 $IP 4660 ;;
+    'pup') echo "1032\n" | nc -w0 $IP 4660 ;;
+    'pdown') echo "1033\n" | nc -w0 $IP 4660 ;;
+    'return') echo "1010\n" | nc -w0 $IP 4660 ;;
+    'exit') echo "1037\n" | nc -w0 $IP 4660 ;;
+    'source') echo "1056\n" | nc -w0 $IP 4660 ;;
+    'epg') echo "1047\n" | nc -w0 $IP 4660 ;;
+    'program') echo "GETINFO PROGRAM" | nc -w1 $IP 1986 ;;
+    'volume') echo "GETINFO VOLUME" | nc -w1 $IP 1986 ;;
+    'activechannellist') echo "GETINFO ACTIVECHANNELLIST" | nc -w10 $IP 1986 ;;
+    'info') echo "1018\n" | nc -w0 $IP 4660 ;;
+    'green') echo "1054\n" | nc -w0 $IP 4660 ;;
+    'yellow') echo "1050\n" | nc -w0 $IP 4660 ;;
+    'red') echo "1055\n" | nc -w0 $IP 4660 ;;
+    'blue') echo "1052\n" | nc -w0 $IP 4660 ;;
+    'play') echo "1025\n" | nc -w0 $IP 4660 ;;
+    'stop') echo "1024\n" | nc -w0 $IP 4660 ;;
+    'pause') echo "1049\n" | nc -w0 $IP 4660 ;;
+    'news')
+        $0 2
+        sleep 10
+        $0 2
+        sleep 1
+        $0 vol 8
+        ;;
+
+    'vol')
+        OUTPUT=$(echo "GETINFO VOLUME" | nc -w1 $IP 1986 | grep "level" \
+            | sed -E "s/^.* level='(.*)'.>/\1/")
+
+        DIFFERENCE=$(expr $2 - $OUTPUT)
+        if [ $DIFFERENCE -gt 0 ]; then
+            for (( i=0; i<$DIFFERENCE; ++i)); do 
+                echo "1016\n" | nc -w0 $IP 4660 
+                sleep 0.1
+            done
+        fi
+
+        DIFFERENCE=$(expr $OUTPUT - $2)
+        if [ $DIFFERENCE -gt 0 ]; then
+            for (( i=0; i<$DIFFERENCE; ++i)); do 
+                echo "1017\n" | nc -w0 $IP 4660 
+                sleep 0.1
+            done
+        fi
+        ;;
+
+    "")
+        while true
+        do
+            read -r -sn1 t
+            echo -ne "\033[1K"
+            sleep 0.05
+            case $t in
+                A) $0 up && echo -ne "\r\033[Karrow up" ;;
+                B) $0 down && echo -ne "\r\033[Karrow down" ;;
+                C) $0 right && echo -ne "\r\033[Karrow right" ;;
+                D) $0 left && echo -ne "\r\033[Karrow left" ;;
+                'o') $0 up && echo -ne "\r\033[Kpage up" ;;
+                'l') $0 down && echo -ne "\r\033[Kpage down" ;;
+                '0') $0 0 && echo -ne "\r\033[Kzero" ;;
+                '1') $0 1 && echo -ne "\r\033[Kone" ;;
+                '2') $0 2 && echo -ne "\r\033[Ktwo" ;;
+                '3') $0 3 && echo -ne "\r\033[Kthree" ;;
+                '4') $0 4 && echo -ne "\r\033[Kfour" ;;
+                '5') $0 5 && echo -ne "\r\033[Kfive" ;;
+                '6') $0 6 && echo -ne "\r\033[Ksix" ;;
+                '7') $0 7 && echo -ne "\r\033[Kseven" ;;
+                '8') $0 8 && echo -ne "\r\033[Keight" ;;
+                '9') $0 9 && echo -ne "\r\033[Knine" ;;
+                'r') $0 return && echo -ne "\r\033[Kback" ;;
+                # 'r') $0 radio && echo -ne "\r\033[Kradio" ;;
+                '#') $0 ok && echo -ne "\r\033[Kok" ;;
+                'm') $0 mute && echo -ne "\r\033[Kmute" ;;
+                'e') $0 epg && echo -ne "\r\033[Kepg" ;;
+                ',') $0 voldown && echo -ne "\r\033[Kvolume down" ;;
+                '.') $0 volup && echo -ne "\r\033[Kvolume up" ;;
+                's') $0 source && echo -ne "\r\033[Ksource" ;;
+                'i') $0 info && echo -ne "\r\033[Kinfo" ;;
+                'p') $0 power && echo -ne "\r\033[Kpower" ;;
+                'q') echo -ne "\r\033[Kquit\n" && exit 0;;
+            esac
+        done
+        ;;
+    *) echo "no valid argument" ;;
+esac
+
+
