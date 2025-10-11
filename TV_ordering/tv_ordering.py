@@ -17,7 +17,7 @@ mit 1000
 
 """
 
-
+SHOWS_ALL = True
 
 
 def medion(cmd, sleep=1.0):
@@ -25,7 +25,30 @@ def medion(cmd, sleep=1.0):
     time.sleep(sleep)
     return output
 
+def toggle_unlocked(all=False):
+    global SHOWS_ALL
+    medion('1', 5)
+    medion('#')
+    medion('green')
+    medion('blue')
+    medion('down')
+    medion('down')
+    if SHOWS_ALL:
+        SHOWS_ALL = False
+        medion('right')
+    else:
+        SHOWS_ALL = True
+        medion('left')
+
+    medion('ok')
+    medion('return')
+
+
 def get_active():
+
+    # does not work becaues activechannellist ignores the setting
+    # toggle_unlocked()
+
     print('try to get active channel list')
     output = medion('activechannellist')
     channel_list = output.read()
@@ -40,7 +63,11 @@ def get_active():
     f_active = open('active.txt', 'w')
     f_active.write('\n'.join(channel_list))
     f_active.close()
+    # toggle_unlocked()
+
     print('got list of current channels')
+
+
     return channel_list, number_list
 
 
@@ -68,14 +95,14 @@ def sorting(channel_list, number_list):
     for channel in setup:
 
         if channel not in channel_list:
-            print(channel, 'not in list')
+            print('not in list: {}'.format(channel))
             continue
 
         name_pos = channel_list.index(channel)
         pos = number_list[name_pos]
 
         if set_position == pos:
-            print(channel, 'already at', str(pos))
+            print('channel skipped: {} at {}'.format(channel, str(pos)))
             set_position += 1
             continue
 
@@ -101,7 +128,7 @@ def sorting(channel_list, number_list):
         medion('return')
 
         
-        print('{} moved to {}'.format(channel, set_position))
+        print('moved: {} to {}'.format(channel, set_position))
 
 
         # print('before')
