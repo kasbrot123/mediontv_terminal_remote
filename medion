@@ -32,6 +32,7 @@ case $1 in
     'epg') echo "1047\n" | nc -w0 $IP 4660 ;;
     'program') echo "GETINFO PROGRAM" | nc -w1 $IP 1986 ;;
     'volume') echo "GETINFO VOLUME" | nc -w1 $IP 1986 ;;
+    'list') echo "GETINFO ACTIVECHANNELLIST" | nc -w10 $IP 1986 | sed 's#/>#\n#g' | sed "s/^.* rsn='\([0-9]\+\)' .*name='\(.*\)' hand.*/\1 \2/" | less;;
     'activechannellist') echo "GETINFO ACTIVECHANNELLIST" | nc -w10 $IP 1986 ;;
     'info') echo "1018\n" | nc -w0 $IP 4660 ;;
     'green') echo "1054\n" | nc -w0 $IP 4660 ;;
@@ -41,6 +42,7 @@ case $1 in
     'play') echo "1025\n" | nc -w0 $IP 4660 ;;
     'stop') echo "1024\n" | nc -w0 $IP 4660 ;;
     'pause') echo "1049\n" | nc -w0 $IP 4660 ;;
+    'toggle') echo "1034\n" | nc -w0 $IP 4660 ;;
     'vol')
         OUTPUT=$(echo "GETINFO VOLUME" | nc -w1 $IP 1986 | grep "level" \
             | sed -E "s/^.* level='(.*)'.>/\1/")
@@ -76,17 +78,17 @@ case $1 in
                 D) $0 left && echo -ne "\r\033[Karrow left" ;;
                 'o') $0 pup && echo -ne "\r\033[Kpage up" ;;
                 'l') $0 pdown && echo -ne "\r\033[Kpage down" ;;
-                '0') $0 0 && echo -ne "\r\033[Kzero" ;;
-                '1') $0 1 && echo -ne "\r\033[Kone" ;;
-                '2') $0 2 && echo -ne "\r\033[Ktwo" ;;
-                '3') $0 3 && echo -ne "\r\033[Kthree" ;;
-                '4') $0 4 && echo -ne "\r\033[Kfour" ;;
-                '5') $0 5 && echo -ne "\r\033[Kfive" ;;
-                '6') $0 6 && echo -ne "\r\033[Ksix" ;;
-                '7') $0 7 && echo -ne "\r\033[Kseven" ;;
-                '8') $0 8 && echo -ne "\r\033[Keight" ;;
-                '9') $0 9 && echo -ne "\r\033[Knine" ;;
-                'r') $0 return && echo -ne "\r\033[Kback" ;;
+                '0') $0 0 && echo -ne "\r\033[K0" ;;
+                '1') $0 1 && echo -ne "\r\033[K1" ;;
+                '2') $0 2 && echo -ne "\r\033[K2" ;;
+                '3') $0 3 && echo -ne "\r\033[K3" ;;
+                '4') $0 4 && echo -ne "\r\033[K4" ;;
+                '5') $0 5 && echo -ne "\r\033[K5" ;;
+                '6') $0 6 && echo -ne "\r\033[K6" ;;
+                '7') $0 7 && echo -ne "\r\033[K7" ;;
+                '8') $0 8 && echo -ne "\r\033[K8" ;;
+                '9') $0 9 && echo -ne "\r\033[K9" ;;
+                'r') $0 return && echo -ne "\r\033[Kreturn" ;;
                 # 'r') $0 radio && echo -ne "\r\033[Kradio" ;;
                 '#') $0 ok && echo -ne "\r\033[Kok" ;;
                 'm') $0 mute && echo -ne "\r\033[Kmute" ;;
@@ -95,6 +97,7 @@ case $1 in
                 '.') $0 volup && echo -ne "\r\033[Kvolume up" ;;
                 's') $0 source && echo -ne "\r\033[Ksource" ;;
                 'i') $0 info && echo -ne "\r\033[Kinfo" ;;
+                't') $0 toggle && echo -ne "\r\033[Ktoggle" ;;
                 'p') $0 power && echo -ne "\r\033[Kpower" ;;
                 'q') echo -ne "\r\033[Kquit\n" && exit 0;;
             esac
