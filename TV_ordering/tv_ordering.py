@@ -3,21 +3,37 @@ import pandas as pd
 import time
 import xml.etree.ElementTree as ET
 import sys
+# import logging
 
 
 """
-Erstinstallation
--> keine bevorzugte empfangsart
-automatischer Senderdurchlauf
-Kabel Digital
-106-8XX
-mit 1000 
+
+-> TV neu aufsetzen
+    Erstinstallation
+    -> keine bevorzugte empfangsart
+    automatischer Senderdurchlauf
+    Kabel Digital
+    106-8XX
+    mit 1000 
+
+-> einfach script rennen lassen
+
+-> namen anpassen die nicht in liste sind
 
 
 
 """
 
 SHOWS_ALL = True
+
+
+# logger = logging.getLogger(__name__)
+#
+# logger.info('Started')
+# logger.info('Finished')
+# logger.critical('Test Critical')
+
+
 
 
 def medion(cmd, sleep=1.0):
