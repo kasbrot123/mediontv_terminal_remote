@@ -108,7 +108,7 @@ case $1 in
                 'q') echo -ne "\r\033[Kquit\n" && exit 0 ;;
                 'h') echo -ne "\r\033[KHelp for medion\n" && sed -n "s/^.* \(.*\)) \$0 \(.*\) && .*$/\1 \t \2/p" /usr/local/bin/medion ;;
 
-                *) echo -ne "\r\033[Knot implemented" ;;
+                *) echo -ne "\r\033[Knot implemented, see h for help." ;;
             esac
         done
         ;;
