@@ -76,8 +76,7 @@ case $1 in
                 B) $0 down && echo -ne "\r\033[Karrow down" ;;
                 C) $0 right && echo -ne "\r\033[Karrow right" ;;
                 D) $0 left && echo -ne "\r\033[Karrow left" ;;
-                'o') $0 pup && echo -ne "\r\033[Kpage up" ;;
-                'l') $0 pdown && echo -ne "\r\033[Kpage down" ;;
+
                 '0') $0 0 && echo -ne "\r\033[K0" ;;
                 '1') $0 1 && echo -ne "\r\033[K1" ;;
                 '2') $0 2 && echo -ne "\r\033[K2" ;;
@@ -88,18 +87,28 @@ case $1 in
                 '7') $0 7 && echo -ne "\r\033[K7" ;;
                 '8') $0 8 && echo -ne "\r\033[K8" ;;
                 '9') $0 9 && echo -ne "\r\033[K9" ;;
+
                 'r') $0 return && echo -ne "\r\033[Kreturn" ;;
-                # 'r') $0 radio && echo -ne "\r\033[Kradio" ;;
                 '#') $0 ok && echo -ne "\r\033[Kok" ;;
+
                 'm') $0 mute && echo -ne "\r\033[Kmute" ;;
-                'e') $0 epg && echo -ne "\r\033[Kepg" ;;
                 ',') $0 voldown && echo -ne "\r\033[Kvolume down" ;;
                 '.') $0 volup && echo -ne "\r\033[Kvolume up" ;;
+
+                'k') $0 pdown && echo -ne "\r\033[Kpage down" ;;
+                'l') $0 pup && echo -ne "\r\033[Kpage up" ;;
+
                 's') $0 source && echo -ne "\r\033[Ksource" ;;
                 'i') $0 info && echo -ne "\r\033[Kinfo" ;;
                 't') $0 toggle && echo -ne "\r\033[Ktoggle" ;;
+                'e') $0 epg && echo -ne "\r\033[Kepg" ;;
                 'p') $0 power && echo -ne "\r\033[Kpower" ;;
-                'q') echo -ne "\r\033[Kquit\n" && exit 0;;
+                '+') $0 list %% echo -ne "\r\033[Klist" ;;
+
+                'q') echo -ne "\r\033[Kquit\n" && exit 0 ;;
+                'h') echo -ne "\r\033[KHelp for medion\n" && sed -n "s/^.* \(.*\)) \$0 \(.*\) && .*$/\1 \t \2/p" /usr/local/bin/medion ;;
+
+                *) echo -ne "\r\033[Knot implemented" ;;
             esac
         done
         ;;
