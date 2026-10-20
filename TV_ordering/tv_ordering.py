@@ -7,6 +7,10 @@ import sys
 
 
 """
+PROBELM: sender list from activechannellist also shows channels which are not
+available on the tv, not sure why dou
+
+
 
 -> TV neu aufsetzen
     Erstinstallation
@@ -15,6 +19,8 @@ import sys
     Kabel Digital
     106-8XX
     mit 1000 
+
+-> Antenne Digital ist zwar gleiche Frequenz funktioniert aber nicht
 
 -> einfach script rennen lassen
 
@@ -102,10 +108,6 @@ def sorting(channel_list, number_list):
     medion('return', 1)
 
 
-    """
-    - wenn channel nicht in activer liste, also nicht verfuegbar
-        dann wird der platz uebersprungen und es 
-    """
 
     set_position = 1
     for channel in setup:
@@ -123,6 +125,8 @@ def sorting(channel_list, number_list):
             continue
 
 
+        # print(pos)
+        # return channel_list, number_list, pos, set_position, name_pos
         # move to the channel
         for d in list(str(pos)):
             medion(d, 0.8)
@@ -185,12 +189,15 @@ if __name__ == '__main__':
 
     # c_list, n_list = get_active()
     if len(sys.argv) < 2:
+        print('Use a flag: active/sort')
+        exit(1)
+
+    if sys.argv[1] == 'sort':
         c_list, n_list = get_active()
         sorting(c_list, n_list)
 
-    else:
-        if sys.argv[1] == 'active':
-            c_list, n_list = get_active()
+    if sys.argv[1] == 'active':
+        c_list, n_list = get_active()
 
 
 
